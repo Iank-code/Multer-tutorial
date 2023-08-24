@@ -8,13 +8,14 @@ const fileStorageEngine = multer.diskStorage({
     cb(null, "./images");
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    var imageUrl = file.fieldname + "-" + Date.now() + ".jpg";
+    cb(null, imageUrl);
   },
 });
 const upload = multer({ storage: fileStorageEngine });
 
 app.post("/single", upload.single("image"), (req, res) => {
-    console.log(req.file)
+  console.log(req.file.filename);
   res.send("Single file upload successful");
 });
 
